@@ -19,7 +19,7 @@ $(OBJ)/%.o: $(SRC)/%.cpp $(INC)/map.hpp
 	$(CC) -fPIC -c -I$(INC) $< -o $@
 
 $(LIB)/libgpfmap.so: $(OBJ)/vect.o 	#Others have to be added similarly before compilation.
-	gcc -shared -o $@ $^ -lm
+	$(CC) -shared -o $@ $^ -lm
 
 clean:
 	$(RM) $(OBJ)/*.o $(LIB)/libgpfmap.so

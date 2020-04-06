@@ -1,8 +1,15 @@
 #include<utility>
 #include<vector>
+#include<cmath>
 
 #ifndef _MAP_H__
 #define _MAP_H__
+
+double _gaussian(double d, double sig){
+	double e = -((d/sig)*(d/sig)/2);
+	double gauss = (1/(sig * std::sqrt(M_PI * 2))) * std::exp(e);
+	return gauss;
+}
 
 enum TYPE{WALL, WELL, GATE, WEIGHT, GOAL_LINE, GOAL_POINT};
 enum BOT_STATUS{STANDING, SITTING, GROUNDED};
@@ -10,22 +17,21 @@ enum BOT_STATUS{STANDING, SITTING, GROUNDED};
 class vect {		//vector implementation of point.
 	public:
 		vect(double x=0.0, double y=0.0): x(x), y(y){}
-		vect(double x, double y): x(x), y(y){}
 
 		double length();
 		
 		friend vect operator+(vect a, vect b);
 		
-		//friend vect operator*(double scalar);
+		friend vect operator*(vect a, double scalar);
 
-		//friend vect operator/(double scalar);
+		friend vect operator/(vect a, double scalar);
 	
-		//friend double operator*(vect p);	//dot product
-		//friend vect operator^(vect p);	//cross product
-	private:
+		friend double operator*(vect a, vect b);	//dot product
+	//	friend vect operator^(vect p);	//cross product //lol not viable for 2D
 	double x, y;
 };
 
+/*
 class object{
 	public:
 		const TYPE type;	
@@ -118,6 +124,6 @@ class square_field : public field {
 		double w, len;
 		
 };	
-
+*/
 
 #endif 	// header _MAP_H__
