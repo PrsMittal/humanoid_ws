@@ -22,7 +22,7 @@ $(LIB)/libgpfmap.so: $(OBJ)/vect.o 	#Others have to be added similarly before co
 	gcc -shared -o $@ $^ -lm
 
 clean:
-	$(RM) $(OBJ)/*.o $(LIB)/gpfmap.so
+	$(RM) $(OBJ)/*.o $(LIB)/libgpfmap.so
 
 realclean: clean
 	$(RM) test
