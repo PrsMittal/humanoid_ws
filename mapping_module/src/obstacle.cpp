@@ -15,7 +15,7 @@ double well :: potential(const vect& p) {
 }
 
 double door :: potential(const vect& p) {
-	double d = abs((p-f1).length() - (p-f2).length());
-	double gauss = _gaussian(max(d- std::sqrt(w*w+h*h), 0), 0.7071);
+	double d = (p-center).length());
+	double gauss = (d**2)*_gaussian(d, 0.7071); //sigma will most probably be w/(2^(1.5))
 	return gauss;
 }

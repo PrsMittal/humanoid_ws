@@ -83,9 +83,9 @@ class well : public object {
 
 class door : public object {
 	public:
-		door(vect p, double w, double h): 
-			object(p, GATE), w(w), f1(p-make_vect(w/2,h/2))   
-			f2(p+make_vect(w/2,h/2)), h(h){}
+		door(vect p, vect f1, double w, double h): 
+			object(p, GATE), w(w), f1(f1),   
+			f2(f1 + (p-f1)*2), h(h){}
 
 		door(vect f1, vect f2, double h):
 			object((f1+f2)/2, GATE), 
@@ -93,7 +93,7 @@ class door : public object {
 			h(h){}
 
 	double potential(const vect& p); //hyperbolic potential field
-	double disctance(const vect& p){double d = (p-center).length(); return d}
+	double distance(const vect& p){double d = (p-center).length(); return d}
 
 	const double w, h;
 	const vect f1, f2;	//f1 and f2 are the mid extreme points on the door(focal points for the hyperbola)
