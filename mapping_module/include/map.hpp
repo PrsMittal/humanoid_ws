@@ -67,22 +67,39 @@ class wall : public object {
 	const vect bp1, bp2;
 };
 
-/*
+
 
 class well : public object {
 	public: 
-		well(vect p, double r): center(p), r(r){}
+		well(vect p, double r): 
+			object(p, WELL), r(r){}
+
+		double potential(const vect& p); //circular potential field
+		double distance(const vect& p){double d = (p-center).length(); return d;}
+
 
 	const double r;
 };
 
 class door : public object {
 	public:
-		door(vect p, double w, double h): center(p), w(w), h(h){}
-	
+		door(vect p, vect f1, double w, double h): 
+			object(p, GATE), w(w), f1(f1),   
+			f2(f1 + (p-f1)*2), h(h){}
+
+		door(vect f1, vect f2, double h):
+			object((f1+f2)/2, GATE), 
+			f1(f1), f2(f2), w((f2-f1).length()), 
+			h(h){}
+
+	double potential(const vect& p); //hyperbolic potential field
+	double distance(const vect& p){double d = (p-center).length(); return d}
+
 	const double w, h;
+	const vect f1, f2;	//f1 and f2 are the mid extreme points on the door(focal points for the hyperbola)
 };
 
+/*
 class weight : public object {
 	public:
 		weight(vect p, double len)
