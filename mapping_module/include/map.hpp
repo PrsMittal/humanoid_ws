@@ -67,8 +67,6 @@ class wall : public object {
 	const vect bp1, bp2;
 };
 
-/*
-
 class well : public object {
 	public: 
 		well(vect p, double r): center(p), r(r){}
@@ -83,6 +81,8 @@ class door : public object {
 	const double w, h;
 };
 
+/*
+
 class weight : public object {
 	public:
 		weight(vect p, double len)
@@ -96,8 +96,18 @@ class goal_point : public object {
 		potential()
 };
 
+*/
 class goal_line : public object {
+	public: 
+		goal_line(vect c, double l, double theta): 
+			object(c, GOAL_LINE), length(l), orient(theta){}	
+		goal_line(vect p1, vect p2):
+			object((p1+p2)/2.0, GOAL_LINE), 
+			length((p1-p2).length()), orient(){}
+	       	double distance(const vect& p);
+		double potential(const vect& p);
 
+	double orient, length;
 };
 
 ///////////////////////// class robot /////////////////////////////
@@ -107,7 +117,8 @@ class bot{
 		bot(vect loc, double theta=0): loc(loc), theta(theta){}
 		
 		//vect location(){return loc};			//not needed now, baad me dekhege
-		//double orientation(){return theta};	
+		//double orientation(){return theta};
+		void update_bot_position(vect loc);	
 
 	vect loc;		//position in field coordiantes
 	double theta;		//orientation in self coordiantes
@@ -117,6 +128,7 @@ class bot{
 
 //////////////////////// class field ///////////////////////////////
 
+/*
 class field{
 	public:
 		virtual field() = 0;
