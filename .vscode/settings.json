@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.tcc": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "functional": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
