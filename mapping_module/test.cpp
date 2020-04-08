@@ -17,9 +17,9 @@ int main(){
 
 	cout << "object :: wall test" << endl;
 	vector<object*> obstacles;
-	wall w(make_vect(10, 20), make_vect(10, 30), 20, 5);
+	door w(make_vect(10, 20), make_vect(10, 30), 20, 5);
 	obstacles.push_back(&w);
-	cout << obstacles[0]->distance(make_vect(5, 25)) << endl;
-	cout << obstacles[0]->potential(make_vect(10, 25)) << " " << obstacles[0]->potential(make_vect(5, 25)) << endl;
+	cout << obstacles[0]->distance(make_vect(5, 20)) << endl;
+	cout << obstacles[0]->potential(make_vect(10, 20)) << " " << obstacles[0]->potential(make_vect(10, 30)) << endl;
 	return 0;
 }

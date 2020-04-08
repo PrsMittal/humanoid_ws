@@ -7,6 +7,10 @@ double vect :: length(){
 	return sqrt(x*x + y*y);
 }
 
+double vect :: arg(){
+	return atan(y/(x+1e-7)) * (180/M_PI);
+}
+
 vect operator+(const vect& a, const vect& b){	
 	vect sum;
 	sum.x = a.x + b.x;

@@ -15,6 +15,7 @@ class vect {		//vector implementation of point.
 		vect(double x=0.0, double y=0.0): x(x), y(y){}
 
 		double length();
+		double arg();
 		
 		friend vect operator+(const vect& a, const vect& b);
 		
@@ -103,7 +104,7 @@ class goal_line : public object {
 			object(c, GOAL_LINE), length(l), orient(theta){}	
 		goal_line(vect p1, vect p2):
 			object((p1+p2)/2.0, GOAL_LINE), 
-			length((p1-p2).length()), orient(){}
+			length((p1-p2).length()), orient((p1-p2).arg()){}
 	       	double distance(const vect& p);
 		double potential(const vect& p);
 
@@ -114,34 +115,36 @@ class goal_line : public object {
 
 class bot{
 	public:
-		bot(vect loc, double theta=0): loc(loc), theta(theta){}
+		bot(const vect& loc, const vect& orient=make_vect(0, 1)): loc(loc), orient(orient), stat(STANDING){}
 		
 		//vect location(){return loc};			//not needed now, baad me dekhege
 		//double orientation(){return theta};
-		void update_bot_position(vect loc);	
+		void update_bot_position(const vect& dp);
+		void update_bot_orientation(const vect& dtheta);
+		void update_bot_orientation(const double& rot_angle); 		//angle in radians.
 
-	vect loc;		//position in field coordiantes
-	double theta;		//orientation in self coordiantes
+	vect pos;		//position in field coordiantes
+	vect orient;		//unit vector in direction the bot is facing.
 	BOT_STATUS stat;	//the condition bot is in rn
 };
 
 
 //////////////////////// class field ///////////////////////////////
 
-/*
 class field{
 	public:
-		virtual field() = 0;
+		field();
 		virtual void update(vect loc, Type type, bool bot_coordinates=true);
-		//virtual void update_bot_position(vect loc);
-		virtual std::vector <std::Pair <object, double>> get_nearest_objects(double range, bool iscircle=true);
-		virtual bool within_field(vect p)
-	
-	std::vector <std::Pair <object, double>> Obstacles;
+		virtual std::vector <std::Pair <object, double>> get_nearest_objects(double range, double spread=360); //vector <object, distance from bot>  
+		virtual double total_potential(const vect& p);
+		virtual vect gradient(const vect& p);		// returns gradient of potential in a 3x3 grid around given point. 
+			
+	std::vector <object*> Obstacles;
 	bot automi;
-	object goal;
+	object* goal;
 };
 
+/*
 class square_field : public field {
 	public: 
 		square_field(double w, double len): w(w), len(len){}
@@ -150,7 +153,7 @@ class square_field : public field {
 
 	double w, len;
 		
-};	
+};
 */
 
 #endif 	// header _MAP_H__
