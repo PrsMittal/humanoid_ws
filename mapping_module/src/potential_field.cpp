@@ -1,13 +1,16 @@
 #include<map.hpp>
 #include<vector>  
+#include<iostream>
+
+const int THRESH = 30;
 
 void bot :: update_bot_position(const vect& dp){
-	pos += dp;
+	pos = pos + dp;
 	return;
 }
 
 void bot :: update_bot_orientation(const vect& dtheta){
-	orient += dtheta;
+	orient = orient + dtheta;
 	orient = orient/(orient.length());
 	return;
 }
@@ -17,46 +20,101 @@ void bot :: update_bot_orientation(const double& rot_angle){
 	return;
 }
 
-// double field :: total_potential(const vect& p){
-// 	//run over all obstacles in the field -_- 
-// 	double potential = 0;
-// 	for (auto obstacle : obstacles){
-// 		potential += obstacle.potential(p);	
-// 		//should we use integral over an area instead?
-// 	}
-// 	return potential;
-// }
-double field :: total_potential(const vect& p,double size,int n){
+vect obstacle_field :: total_potential(const vect& p){
+ 	//run over all obstacles in the field -_- 
+ 	vect potential(0,0);
+ 	for (auto wall : walls){
+ 		if (wall.distance(p) < THRESH)
+		potential = potential + wall.potential(p);	
+ 	}
+	for (auto well : wells){
+                if (well.distance(p) < THRESH)
+		potential = potential + well.potential(p);
+        }
+	for (auto door : doors){
+		if (door.distance(p) < THRESH)
+                potential = potential + door.potential(p);
+        }
 
-	double potential=0;
-	int i,j,k;
-	int unit=int(size/n)
-	//vect temp=vect make_vect(p.x,p.y);
-	//object obstacle;
-	//std::vector <object*> Obstacles;
-	int l=Obstacles.size();
+	potential = potential + goal.potential(p);
+ 	return potential;
+}
+
+vect obstacle_field :: total_potential(const vect& p, const double& size, const int& n){
+
+	vect potential;
+	int unit=int(size/n);
 	
-	
-	for( k=0;k<l;k++){
-
-		
-		for( i=0 ;i<int(size/2) ;i+=unit ){
-
-			for( j=0; j<int(size/2); j+=unit ){
+	for(auto wall: walls){
+		if (wall.distance(p) > THRESH){
+			continue;
+		}
+		for(int i=0 ;i<int(size/2) ;i+=unit ){
+			for(int j=0; j<int(size/2); j+=unit ){
 			
-				potential+=Obstacles[k]->potential(make_vect( p.x-i,p.y-j));
-				potential+=Obstacles[k]->potential(make_vect( p.x+i,p.y+j));
-				potential+=Obstacles[k]->potential(make_vect( p.x-i,p.y+j));
-				potential+=Obstacles[k]->potential(make_vect( p.x+i,p.y-j));
+				potential = potential + wall.potential(make_vect( p.x-i,p.y-j));
+				potential = potential + wall.potential(make_vect( p.x+i,p.y+j));
+				potential = potential + wall.potential(make_vect( p.x-i,p.y+j));
+				potential = potential + wall.potential(make_vect( p.x+i,p.y-j));
 			}
 		}
 	}
 
+	for(auto well: wells){
+                if (well.distance(p) > THRESH){
+                        continue;
+                }
+		for(int i=0 ;i<int(size/2) ;i+=unit ){
+                        for(int j=0; j<int(size/2); j+=unit ){
+
+                                potential = potential + well.potential(make_vect( p.x-i,p.y-j));
+                                potential = potential + well.potential(make_vect( p.x+i,p.y+j));
+                                potential = potential + well.potential(make_vect( p.x-i,p.y+j));
+                                potential = potential + well.potential(make_vect( p.x+i,p.y-j));
+                        }
+                }
+        }
+
+	for(auto door: doors){
+                if (door.distance(p) > THRESH){
+                        continue;
+                }
+		for(int i=0 ;i<int(size/2) ;i+=unit ){
+                        for(int j=0; j<int(size/2); j+=unit ){
+
+                                potential = potential + door.potential(make_vect( p.x-i,p.y-j));
+                                potential = potential + door.potential(make_vect( p.x+i,p.y+j));
+                                potential = potential + door.potential(make_vect( p.x-i,p.y+j));
+                                potential = potential + door.potential(make_vect( p.x+i,p.y-j));
+                        }
+                }
+        }
+
+	for(int i=0 ;i<int(size/2) ;i+=unit ){
+		for(int j=0; j<int(size/2); j+=unit ){
+			potential = potential + goal.potential(make_vect( p.x-i,p.y-j));
+			potential = potential + goal.potential(make_vect( p.x+i,p.y+j));
+			potential = potential + goal.potential(make_vect( p.x-i,p.y+j));
+			potential = potential + goal.potential(make_vect( p.x+i,p.y-j));
+                }
+        }
+
 	return potential;
 }
 
-vect field :: gradient(const vect p){
-	
+vect obstacle_field :: gradient(const vect& p){
+	vect grad;
+	// double potential[3][3];
+	// for (int i=0; i<3; i++){
+	// 	potential[i][0] = total_potential(make_vect(p.x-range, py+(i-1)*range), size, n);
+	// 	potential[i][1] = total_potential(make_vect(p.x, py+(i-1)*range), size, n);
+	//        	potential[i][2] = total_potential(make_vect(p.x+range, py+(i-1)*range), size, n);
+	// }
+	// int x, y;
+
+	return grad;
+}
+
  
 
 

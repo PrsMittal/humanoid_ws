@@ -1,23 +1,24 @@
 #include<map.hpp>
 #include<cmath>
+#include<iostream>
 
-double wall :: potential(const vect& p) {
+vect wall :: potential(const vect& p) {
 	double d = (bp1 - p).length() + (bp2 - p).length();
 	double gauss = _gaussian(d - std::sqrt(w*w + t*t), 0.7071);
-	return gauss;
+	return -gauss*((center-p)/(center-p).length());
 }
 
 
-double well :: potential(const vect& p) {
+vect well :: potential(const vect& p) {
 	double d = (p-center).length();
 	double gauss = _gaussian(std::max(d-r, 0.0), 0.7071);
-	return gauss;
+	return -gauss*((center-p)/(center-p).length());
 }
 
-double door :: potential(const vect& p) {
+vect door :: potential(const vect& p) {
 	double d = (p-center).length();
 	double gauss = (d*d)*_gaussian(d, w/(std::pow(2, 1.5)))/(w*w); //sigma will most probably be w/(2^(1.5))
-	return gauss;
+	return -gauss*((center-p)/(center-p).length());
 }
 
 double goal_line :: distance(const vect& p) {
@@ -25,8 +26,11 @@ double goal_line :: distance(const vect& p) {
 	return d;
 }
 
-double goal_line :: potential(const vect& p){
+vect goal_line :: potential(const vect& p){
 	double d = distance(p);
 	double gauss = _gaussian(d, 1.414);
-	return -gauss;
+	//vect r = 		//vector along the line
+	//vect normal = make_vect(-r.y, r.x)
+	vect normal = make_vect(-std::sin(orient), std::cos(orient));
+	return 0.5*normal;
 }

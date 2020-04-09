@@ -18,7 +18,7 @@ $(OBJ)/test.o: test.cpp $(HDRS)
 $(OBJ)/%.o: $(SRC)/%.cpp $(INC)/map.hpp
 	$(CC) -fPIC -c -I$(INC) $< -o $@
 
-$(LIB)/libgpfmap.so: $(OBJ)/vect.o $(OBJ)/obstacle.o $(OBJ)/functions.o	#Others have to be added similarly before compilation.
+$(LIB)/libgpfmap.so: $(OBJ)/vect.o $(OBJ)/obstacle.o $(OBJ)/functions.o	$(OBJ)/potential_field.o #Others have to be added similarly before compilation.
 	$(CC) -shared -o $@ $^ -lm
 
 clean:

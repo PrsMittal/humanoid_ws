@@ -1,6 +1,7 @@
 #include<map.hpp>
 #include<cmath>
 #include<stdexcept>
+#include<iostream>
 using namespace std;
 
 double vect :: length(){
@@ -25,14 +26,21 @@ vect operator*(const vect& a, const double& scalar){
 	return prod;
 }
 
+vect operator*(const double& scalar, const vect& a){
+        vect prod;
+        prod.x = a.x*scalar;
+        prod.y = a.y*scalar;
+        return prod;
+}
+
 vect operator/(const vect& a, const double& scalar){	
 	vect div;
-	double eps = 1e-9;
+	double eps = 1e-7;
 	if (abs(scalar) < eps) {
-		throw runtime_error("Math error: divide by 0 encountered");
+		//throw runtime_error("Math error: divide by 0 encountered");
 	}
-	div.x = a.x/scalar;
-	div.y = a.y/scalar;
+	div.x = a.x/(scalar+eps);
+	div.y = a.y/(scalar+eps);
 	return div;
 }
 
