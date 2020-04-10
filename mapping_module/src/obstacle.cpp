@@ -1,10 +1,10 @@
 //#include<map.hpp>
-#include<object.hpp>
+#include<obstacle.hpp>
 #include<cmath>
 #include<iostream>
 namespace huroiitk{
-enum class METHOD{GAUSSIAN,COULOMBIC};	
-vect wall :: potential(const vect& p,METHOD Method) {
+	
+vect wall :: potential(const vect& p, METHOD Method) {
 	double d = (bp1 - p).length() + (bp2 - p).length();
 	double gauss = _gaussian(d - std::sqrt(w*w + t*t), 0.7071);
 	return -gauss*((center-p)/(center-p).length());
@@ -28,11 +28,8 @@ double goal_line :: distance(const vect& p) {
 	return d;
 }
 
-vect goal_line :: potential(const vect& p, METHOD Method){
+vect goal_line :: potential(const vect& p, METHOD method){
 	double d = distance(p);
-	double gauss = _gaussian(d, 1.414);
-	//vect r = 		//vector along the line
-	//vect normal = make_vect(-r.y, r.x)
 	vect normal = make_vect(-std::sin(orient), std::cos(orient));
 	return 0.5*normal;
 }

@@ -1,9 +1,8 @@
-//#include<map.hpp>
 #include<field.hpp>
 #include<vector>  
 #include<iostream>
+
 namespace huroiitk{
-enum class METHOD{GAUSSIAN,COULOMBIC};
 const int THRESH = 30;
 
 void bot :: update_bot_position(const vect& dp){

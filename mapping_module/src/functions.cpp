@@ -1,5 +1,6 @@
 //#include<map.hpp>
 #include<functions.hpp>
+#include<vect.hpp>
 #include<cmath>
 namespace huroiitk{
 double _gaussian(const double& d, const double& sig){
