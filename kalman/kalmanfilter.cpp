@@ -11,6 +11,7 @@
 
 
 #include "kalmanfilter.h"
+#include <cmath>
 
 void KalmanFilter::start(
   const int nin, const VectorXd& xin, const MatrixXd& Pin, const MatrixXd& Fin, const MatrixXd& Qin){
@@ -27,26 +28,36 @@ void KalmanFilter::setQ(const MatrixXd& Qin){
   _Q = Qin;
 }
 
-void KalmanFilter::updateF(const double dt){
-  /*code*/
+void KalmanFilter::updateF(VectorXd u){
+  _F(0,0)= 1;
+  _F(0,1)= 0;
+  _F(0,2)= step_length * u[0] * cos(_x(2));
+  _F(1,0)= 0;
+  _F(1,1)= 1;
+  _F(1,2)= (-1) * step_length * u[0] * sin(_x(2));
+  _F(2,0)= 0;
+  _F(2,1)= 0;
+  _F(2,2)= 1;
 }
 
 VectorXd KalmanFilter::get_resulting_state() const{
   return _x;
 }
 
-void KalmanFilter::predict(){
-  _x = _F * _x;
+void KalmanFilter::predict(VectorXd u){
+  VectorXd temp((step_length*u[0]*sin(u[1])),(step_length*u[0]*cos(u[1])),(u[1])];
+  _x = _x + temp;
+  KalmanFilter::updateF(VectorXd u);
   _P = _F * _P * _F.transpose() + _Q;
 }
 
-void KalmanFilter::update(const VectorXd& z, const MatrixXd& H, const VectorXd& Hx, const MatrixXd& R){
+void KalmanFilter::update(const VectorXd& z, const MatrixXd& R){
 
-  const MatrixXd PHt = _P * H.transpose();
-  const MatrixXd S = H * PHt + R;
-  const MatrixXd K = PHt * S.inverse();
-  VectorXd y = z - Hx;
+  // const MatrixXd PHt = _P * H.transpose();
+  const MatrixXd S = _P + R;
+  const MatrixXd K = _P * S.inverse();
+  VectorXd y = z - _x;
 
   _x = _x + K * y;
-  _P = (_I - K * H) * _P;
+  _P = (_I - K) * _P;
 }

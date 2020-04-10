@@ -10,6 +10,7 @@ class KalmanFilter{
 
   private:
     int _n;
+    float step_length;
     VectorXd _x;
     MatrixXd _P;
     MatrixXd _F;
@@ -20,10 +21,10 @@ class KalmanFilter{
     KalmanFilter(){};
     void start(const int nin, const VectorXd& xin, const MatrixXd& Pin, const MatrixXd& Fin, const MatrixXd& Qin);
     void setQ(const MatrixXd& Qin);
-    void updateF(const double dt);
+    void updateF(VectorXd u);
     VectorXd get_resulting_state() const;
-    void predict();
-    void update(const VectorXd& z, const MatrixXd& H, const VectorXd& Hx, const MatrixXd& R);
+    void predict(VectorXd u);
+    void update(const VectorXd& z, const MatrixXd& R);
 };
 
 
