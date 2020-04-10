@@ -1,5 +1,3 @@
-//#include<map.hpp>
-#include<functions.hpp>
 #include<vect.hpp>
 #include<cmath>
 namespace huroiitk{
@@ -12,6 +10,11 @@ double _gaussian(const double& d, const double& sig){
 vect make_vect(double x, double y){
 	vect v(x, y);
 	return v;
+}
+inline double _inverse(const double d, const double k){
+	double eps = 1e-9;
+	double potential = k/(d+eps);
+	return potential;
 }
 }
 
