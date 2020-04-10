@@ -5,7 +5,8 @@
 #include<obstacle.hpp>
 
 namespace huroiitk{
-const double k;
+const double K_REP;
+const double K_ATR;
 vect wall :: potential(const vect& p, METHOD Method) {
 
 	double d = (bp1 - p).length() + (bp2 - p).length();
@@ -17,9 +18,9 @@ vect wall :: potential(const vect& p, METHOD Method) {
 	return -gauss*((center-p)/(center-p).length());
 	}
 		break;
-	case METHOD::INVERSE:
+	case METHOD::COULOMBIC:
 	{
-		double inverse=_inverse(d,k);
+		double inverse=_inverse(d,K_REP);
 		return inverse;
 	}
 		break;
@@ -40,9 +41,9 @@ vect well :: potential(const vect& p, METHOD Method) {
 	return -gauss*((center-p)/(center-p).length());
 	}
 		break;
-	case METHOD::INVERSE:
+	case METHOD::COULOMBIC:
 	{
-		double inverse= _inverse(d,k);
+		double inverse= _inverse(d,K_REP);
 		return inverse;
 	}
 		break;	
@@ -62,9 +63,9 @@ vect door :: potential(const vect& p, METHOD Method) {
 	return -gauss*((center-p)/(center-p).length());
 	}
 		break;
-	case METHOD::INVERSE:
+	case METHOD::COULOMBIC:
 	{
-		double inverse=_inverse(d,k);
+		double inverse=_inverse(d,K_REP);
 		return inverse;
 	}
 		break;
@@ -78,8 +79,22 @@ double goal_line :: distance(const vect& p) {
 
 vect goal_line :: potential(const vect& p, METHOD method){
 	double d = distance(p);
+	switch (Method)
+	{
+	case METHOD::GAUSSIAN:{
 	vect normal = make_vect(-std::sin(orient), std::cos(orient));
 	return 0.5*normal;
+	}
+		break;
+	case METHOD::COULOMBIC:{
+		double inverse=_inverse(d,K_ATR);
+		return inverse;
+	}
+		break;
+	// default:
+	// 	break;
+	}
+	
 }
 
 }
