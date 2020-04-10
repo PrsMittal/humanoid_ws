@@ -1,7 +1,9 @@
-#include<map.hpp>
+//#include<map.hpp>
+#include<field.hpp>
 #include<vector>  
 #include<iostream>
-
+namespace huroiitk{
+enum class METHOD{GAUSSIAN,COULOMBIC};
 const int THRESH = 30;
 
 void bot :: update_bot_position(const vect& dp){
@@ -20,7 +22,7 @@ void bot :: update_bot_orientation(const double& rot_angle){
 	return;
 }
 
-vect obstacle_field :: total_potential(const vect& p){
+vect obstacle_field :: total_potential(const vect& p, METHOD Method){
  	//run over all obstacles in the field -_- 
  	vect potential(0,0);
  	for (auto wall : walls){
@@ -40,7 +42,7 @@ vect obstacle_field :: total_potential(const vect& p){
  	return potential;
 }
 
-vect obstacle_field :: total_potential(const vect& p, const double& size, const int& n){
+vect obstacle_field :: total_potential(const vect& p, const double& size, const int& n, METHOD Method){
 
 	vect potential;
 	int unit=int(size/n);
@@ -114,7 +116,7 @@ vect obstacle_field :: gradient(const vect& p){
 
 	return grad;
 }
-
+}
  
 
 

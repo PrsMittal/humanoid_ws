@@ -1,9 +1,10 @@
-#include<map.hpp>
+//#include<map.hpp>
+#include<vect.hpp>
 #include<cmath>
 #include<stdexcept>
 #include<iostream>
 using namespace std;
-
+namespace huroiitk{
 double vect :: length(){
 	return sqrt(x*x + y*y);
 }
@@ -63,7 +64,7 @@ vect operator-(const vect& a, const vect& b){
 	sum.y = a.y - b.y;
 	return sum;
 }
-
+}
 
 
 

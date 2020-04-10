@@ -15,10 +15,10 @@ test: $(OBJ)/test.o $(LIB)/libgpfmap.so
 $(OBJ)/test.o: test.cpp $(HDRS)
 	$(CC) -DTR -c -I$(INC) $< -o $@
 
-$(OBJ)/%.o: $(SRC)/%.cpp $(INC)/map.hpp
+$(OBJ)/%.o: $(SRC)/%.cpp $(INC)/%.hpp
 	$(CC) -fPIC -c -I$(INC) $< -o $@
 
-$(LIB)/libgpfmap.so: $(OBJ)/vect.o $(OBJ)/obstacle2.o $(OBJ)/functions.o	$(OBJ)/potential_field.o #Others have to be added similarly before compilation.
+$(LIB)/libgpfmap.so: $(OBJ)/vect.o $(OBJ)/obstacle.o $(OBJ)/functions.o	$(OBJ)/field.o #Others have to be added similarly before compilation.
 	$(CC) -shared -o $@ $^ -lm
 
 clean:
