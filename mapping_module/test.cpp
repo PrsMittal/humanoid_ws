@@ -1,8 +1,12 @@
 #include<iostream>
-#include<map.hpp>
+//#include<map.hpp>
 #include<vector>
+#include<field.hpp>
+#include<functions.hpp>
+#include<obstacle.hpp>
+#include<vect.hpp>
 using namespace std;
-
+using namespace huroiitk;
 int main(){
 	/*
 	cout << "vect test" << endl;
