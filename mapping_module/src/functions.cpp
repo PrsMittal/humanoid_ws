@@ -11,7 +11,8 @@ vect make_vect(double x, double y){
 	vect v(x, y);
 	return v;
 }
-inline double _inverse(const double d, const double k){
+
+double _inverse(const double& d, const double& k){
 	double eps = 1e-9;
 	double potential = k/(d+eps);
 	return potential;

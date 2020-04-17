@@ -5,8 +5,8 @@
 #include<obstacle.hpp>
 
 namespace huroiitk{
-const double K_REP;
-const double K_ATR;
+const double K_REP= 0.5;
+const double K_ATR= 2;
 vect wall :: potential(const vect& p, METHOD Method) {
 
 	double d = (bp1 - p).length() + (bp2 - p).length();
@@ -44,7 +44,7 @@ vect well :: potential(const vect& p, METHOD Method) {
 	case METHOD::COULOMBIC:
 	{
 		double inverse= _inverse(d,K_REP);
-		return inverse;
+		return -inverse*((center-p)/(center-p).length());
 	}
 		break;	
 	// default:
@@ -66,7 +66,7 @@ vect door :: potential(const vect& p, METHOD Method) {
 	case METHOD::COULOMBIC:
 	{
 		double inverse=_inverse(d,K_REP);
-		return inverse;
+		return -inverse*((center-p)/(center-p).length());
 	}
 		break;
 	}
@@ -78,23 +78,7 @@ double goal_line :: distance(const vect& p) {
 }
 
 vect goal_line :: potential(const vect& p, METHOD method){
-	double d = distance(p);
-	switch (Method)
-	{
-	case METHOD::GAUSSIAN:{
 	vect normal = make_vect(-std::sin(orient), std::cos(orient));
-	return 0.5*normal;
-	}
-		break;
-	case METHOD::COULOMBIC:{
-		double inverse=_inverse(d,K_ATR);
-		return inverse;
-	}
-		break;
-	// default:
-	// 	break;
-	}
-	
+        return K_ATR*normal;
 }
-
 }
